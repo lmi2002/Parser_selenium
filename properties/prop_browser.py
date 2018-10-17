@@ -9,7 +9,7 @@ class Browser:
 
         config.browser_name = browser_name
         config.start_maximized = True
-        config.hold_browser_open = True
+        config.hold_browser_open = False
         config.cash_elements = True
         browser.open_url(url)
 

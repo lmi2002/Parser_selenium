@@ -1,6 +1,8 @@
 import re
+
+
 def lower_register(*args):
-    data = list()
+    data = []
     for arg in args:
         arg = str(arg).lower()
         data.append(arg)
@@ -8,8 +10,8 @@ def lower_register(*args):
 
 
 def delete_all_spec_symbol(*args):
-    data = list()
-    symbols = '/.,}][# !$%^&\*;:{=+-_~}('
+    data = []
+    symbols = '/.,"}][# !$%^&\*;:{=+-_~}('
     for arg in args:
         arg = str(arg)
         for char in symbols:
