@@ -16,24 +16,26 @@ class PageObjectAvtopro:
 
     # Search in list elements element with text
     def get_choice_num(self, brand):
-        list_item_brand = function.delete_all_spec_symbol(brand)
-        brand_no_sym = list_item_brand[0]
-        list_brand_lower = function.lower_register(brand_no_sym)
-        brand_lower = list_brand_lower[0]
-        span_list = self.ss('div span').should(appear)
-        print(span_list)
-        for el in span_list:
-            txt = el.span_list
-            txt_no_sym = function.delete_all_spec_symbol(txt)
-            print(txt_no_sym)
+        brand_no_sym = function.delete_all_spec_symbol(brand)
+        brand_lower = function.lower_register(brand_no_sym[0])
+
+        try:
+            list_span = self.ss('span')
+
+            for el in list_span:
+                try:
+                    txt = function.lower_register(el.text)
+                    txt_no_sym = function.delete_all_spec_symbol(txt)
+                    if brand_lower[0] in txt_no_sym[0]:
+                        self.s(by.text(el.text)).click()
+                except Exception:
+                    pass
+        except Exception:
+            pass
 
 
-
-
-browser = Browser('chrome', 'https://avto.pro/')
+_browser = Browser('chrome', 'https://avto.pro/')
 page_object = PageObjectAvtopro()
 input_search = page_object.get_input_search()
 input_search.send_keys(12659)
-page_object.get_choice_num('Fe-bi')
-#print(function.lower_register('Metelli', 12345))
-#print(function.delete_all_spec_symbol('Me//te-l+li/', '12!3+4-5'))
+page_object.get_choice_num('febi')
