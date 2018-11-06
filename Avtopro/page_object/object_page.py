@@ -1,5 +1,4 @@
 import re
-import time
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
@@ -7,10 +6,14 @@ from selenium.webdriver.common.by import By
 from properties.prop_driver import Driver
 from base_function import helper
 
+from properties.prop_csv import Csv
+
 
 class PageObjectAvtopro(Driver):
 
     url = 'https://avto.pro/'
+
+    header = ['Производитель', 'Код', 'Описание', 'Цена,ГРН']
 
     def __init__(self):
         super().__init__()
@@ -34,18 +37,18 @@ class PageObjectAvtopro(Driver):
                 brand.click()
                 break
 
+    def get_table(self):
+        return self.wait.until(EC.presence_of_all_elements_located((By.XPATH, "//tbody/tr")))
 
+    def record_to_file_csv(self, table):
+        lst = []
+        keys = ['Производитель', 'Код', 'Описание', 'Цена,ГРН']
+        dct_key = dict.fromkeys(keys)
 
-
-
-
-r = PageObjectAvtopro()
-r.open_site()
-r.maximize_window()
-r.get_search_query().send_keys(12345)
-time.sleep(3)
-r.get_choice_num('Feb')
-time.sleep(3)
-r.close()
+        for tr in table:
+            dct_value = [td.text for idx, td in enumerate(tr.find_elements_by_xpath('td'), start=1) if idx in (1, 2, 3, 5)]
+            dct = dict(zip(dct_key, dct_value))
+            lst.append(dct)
+        return lst
 
 
