@@ -1,11 +1,11 @@
 import re
 import time
-from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 
 from properties.prop_driver import Driver
-from base_function import func
+from base_function import helper
 
 
 class PageObjectAvtopro(Driver):
@@ -21,18 +21,21 @@ class PageObjectAvtopro(Driver):
     def get_search_query(self):
         return self.driver.find_element_by_id('ap-search-query')
 
-    def get_choice_num(self, brand):
-        brand_no_sym = func.delete_all_spec_symbol(brand)
-        brand_lower = func.lower_register(brand_no_sym[0])
+    def get_choice_num(self, brand_exist):
+        brand_exist = brand_exist
+        brand_no_sym = helper.delete_all_spec_symbol(brand_exist)
 
-        list_brand = [el for el in self.driver.find_elements_by_xpath('//div[2]/span/span')]
+        list_brand = self.wait.until(EC.presence_of_all_elements_located((By.XPATH, "//div[2]/span/span")))
 
-        for brand_avtopro in list_brand:
-            brand_avtopro_no_sym = func.delete_all_spec_symbol(brand_avtopro.text)
-            brand_avtopro_lower = func.lower_register(brand_avtopro_no_sym[0])
-            if brand_lower == brand_avtopro_lower:
-                self.driver.find_element_by_xpath('//div[2]/span/span').click()
-                print()
+        for brand in list_brand:
+            brand_avtopro = brand.text
+            brand_avtopro_no_sym = helper.delete_all_spec_symbol(brand_avtopro)
+            if re.search(brand_no_sym[0], brand_avtopro_no_sym[0], re.I):
+                brand.click()
+                break
+
+
+
 
 
 
@@ -41,7 +44,7 @@ r.open_site()
 r.maximize_window()
 r.get_search_query().send_keys(12345)
 time.sleep(3)
-r.get_choice_num('Febi')
+r.get_choice_num('Feb')
 time.sleep(3)
 r.close()
 

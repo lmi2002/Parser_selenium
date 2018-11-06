@@ -1,14 +1,3 @@
-import re
-
-
-def lower_register(*args):
-    data = []
-    for arg in args:
-        arg = str(arg).lower()
-        data.append(arg)
-    return data
-
-
 def delete_all_spec_symbol(*args):
     data = []
     symbols = '/.,"}][# !$%^&\*;:{=+-_~}('
