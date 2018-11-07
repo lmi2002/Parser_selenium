@@ -6,7 +6,6 @@ from selenium.webdriver.common.by import By
 from properties.prop_driver import Driver
 from base_function import helper
 
-from properties.prop_csv import Csv
 
 
 class PageObjectAvtopro(Driver):
