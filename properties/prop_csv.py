@@ -6,12 +6,12 @@ class Csv:
 
     def read_to_csv(self, path_to_directory=None):
 
-        lst = []
+        lst_tmp = []
         with open(path_to_directory, newline='') as csvfile:
             reader = csv.DictReader(csvfile, delimiter=';')
             for row in reader:
-                lst.append(row)
-            return lst
+                lst_tmp.append(row)
+            return lst_tmp
 
     def record_to_csv(self, name_file=None, s_fieldnames=None, data_list=None, path_to_directory=None):
 

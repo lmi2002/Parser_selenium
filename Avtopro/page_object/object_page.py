@@ -7,7 +7,6 @@ from properties.prop_driver import Driver
 from base_function import helper
 
 
-
 class PageObjectAvtopro(Driver):
 
     url = 'https://avto.pro/'
@@ -33,11 +32,12 @@ class PageObjectAvtopro(Driver):
             brand_avtopro = brand.text
             brand_avtopro_no_sym = helper.delete_all_spec_symbol(brand_avtopro)
             if re.search(brand_no_sym[0], brand_avtopro_no_sym[0], re.I):
-                brand.click()
-                break
+                return brand
+            else:
+                return None
 
     def get_table(self):
-        return self.wait.until(EC.presence_of_all_elements_located((By.XPATH, "//tbody/tr")))
+        return self.wait.until(EC.presence_of_all_elements_located((By.XPATH, "//table[@id='js-partslist-primary']/tbody/tr")))
 
     def record_to_file_csv(self, table):
         lst = []
@@ -49,5 +49,3 @@ class PageObjectAvtopro(Driver):
             dct = dict(zip(dct_key, dct_value))
             lst.append(dct)
         return lst
-
-
