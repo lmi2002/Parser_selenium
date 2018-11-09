@@ -22,19 +22,29 @@ class PageObjectAvtopro(Driver):
     def get_search_query(self):
         return self.driver.find_element_by_id('ap-search-query')
 
+    def get_element_no_found(self):
+        self.default_timeout = 4
+        try:
+            return self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, "LWFNSBrEZM8occTp6tJPU")))
+        except Exception:
+            return None
+
     def get_choice_num(self, brand_exist):
-        brand_exist = brand_exist
-        brand_no_sym = helper.delete_all_spec_symbol(brand_exist)
+        try:
+            brand_exist = brand_exist
+            brand_no_sym = helper.delete_all_spec_symbol(brand_exist)
 
-        list_brand = self.wait.until(EC.presence_of_all_elements_located((By.XPATH, "//div[2]/span/span")))
+            list_brand = self.wait.until(EC.presence_of_all_elements_located((By.XPATH, "//div[2]/span/span")))
 
-        for brand in list_brand:
-            brand_avtopro = brand.text
-            brand_avtopro_no_sym = helper.delete_all_spec_symbol(brand_avtopro)
-            if re.search(brand_no_sym[0], brand_avtopro_no_sym[0], re.I):
-                return brand
+            for brand in list_brand:
+                brand_avtopro = brand.text
+                brand_avtopro_no_sym = helper.delete_all_spec_symbol(brand_avtopro)
+                if re.search(brand_no_sym[0], brand_avtopro_no_sym[0], re.I):
+                    return brand
             else:
                 return None
+        except Exception:
+            return None
 
     def get_table(self):
         return self.wait.until(EC.presence_of_all_elements_located((By.XPATH, "//table[@id='js-partslist-primary']/tbody/tr")))

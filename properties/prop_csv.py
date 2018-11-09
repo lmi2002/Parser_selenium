@@ -21,13 +21,13 @@ class Csv:
             data_list - list of data to record to file
             path_to_directory - the path to the folder
         """
-        with open(path_to_directory + '\\' +str(name_file) + '.csv', 'w', newline='', encoding='utf8') as csvfile:
+        with open(path_to_directory + '\\' +str(name_file) + '.csv', 'w', newline='') as csvfile:
             writer = csv.DictWriter(csvfile, delimiter=';', fieldnames=s_fieldnames)
             writer.writeheader()
             for row in data_list:
                 writer.writerow(row)
 
-
-
-
+    def create_empty_csv(self, name_file=None, path_to_directory=None):
+        with open(path_to_directory + '\\' + str(name_file) + '.csv', 'w', newline='') as csvfile:
+            pass
 
