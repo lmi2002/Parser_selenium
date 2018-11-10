@@ -7,7 +7,7 @@ class Csv:
     def read_to_csv(self, path_to_directory=None):
 
         lst_tmp = []
-        with open(path_to_directory, newline='') as csvfile:
+        with open(path_to_directory, 'r', newline='') as csvfile:
             reader = csv.DictReader(csvfile, delimiter=';')
             for row in reader:
                 lst_tmp.append(row)
@@ -21,7 +21,7 @@ class Csv:
             data_list - list of data to record to file
             path_to_directory - the path to the folder
         """
-        with open(path_to_directory + '\\' +str(name_file) + '.csv', 'w', newline='') as csvfile:
+        with open(path_to_directory + '\\' +str(name_file) + '.csv', 'w', newline='', errors='ignore') as csvfile:
             writer = csv.DictWriter(csvfile, delimiter=';', fieldnames=s_fieldnames)
             writer.writeheader()
             for row in data_list:
