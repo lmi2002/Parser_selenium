@@ -4,6 +4,11 @@ import io
 
 class Csv:
 
+    """
+    The file for read must have four columns. Name columns : (brand_ex, brand_avtopro, num, index)
+
+    """
+
     def read_to_csv(self, path_to_directory=None):
 
         lst_tmp = []
@@ -17,7 +22,7 @@ class Csv:
 
         """
             name_file - name of file
-            sfieldnames - list of column names
+            s_fieldnames - list of column names
             data_list - list of data to record to file
             path_to_directory - the path to the folder
         """

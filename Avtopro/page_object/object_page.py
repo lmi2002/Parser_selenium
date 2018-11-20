@@ -1,14 +1,13 @@
 import re
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-
+from selenium.webdriver.support.ui import WebDriverWait
 
 from properties.prop_driver import Driver
 from base_function import helper
 
 
 class PageObjectAvtopro(Driver):
-
     url = 'https://avto.pro/'
 
     header = ['Производитель', 'Код', 'Описание', 'Цена,ГРН']
@@ -34,7 +33,9 @@ class PageObjectAvtopro(Driver):
             brand_exist = brand_exist
             brand_no_sym = helper.delete_all_spec_symbol(brand_exist)
 
-            list_brand = self.wait.until(EC.presence_of_all_elements_located((By.XPATH, "//div[2]/span/span")))
+            list_brand = self.wait.until(
+                EC.presence_of_all_elements_located((
+                    By.XPATH, "//div[@class='_1a3Xi3YWVfR_VZuP6CmJIS']/span/span")))
 
             for brand in list_brand:
                 brand_avtopro = brand.text
@@ -47,7 +48,8 @@ class PageObjectAvtopro(Driver):
             return None
 
     def get_table(self):
-        return self.wait.until(EC.presence_of_all_elements_located((By.XPATH, "//table[@id='js-partslist-primary']/tbody/tr")))
+        return self.wait.until(
+            EC.presence_of_all_elements_located((By.XPATH, "//table[@id='js-partslist-primary']/tbody/tr")))
 
     def record_to_file_csv(self, table):
         lst = []
@@ -55,7 +57,15 @@ class PageObjectAvtopro(Driver):
         dct_key = dict.fromkeys(keys)
 
         for tr in table:
-            dct_value = [td.text for idx, td in enumerate(tr.find_elements_by_xpath('td'), start=1) if idx in (1, 2, 3, 5)]
+            dct_value = [td.text for idx, td in enumerate(tr.find_elements_by_xpath('td'), start=1) if
+                         idx in (1, 2, 3, 5)]
             dct = dict(zip(dct_key, dct_value))
             lst.append(dct)
         return lst
+
+    def page_404(self):
+        if '404' in self.driver.title:
+            return True
+
+    def get_el_refer_to_main(self):
+        return self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".er_text a")))

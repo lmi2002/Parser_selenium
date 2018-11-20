@@ -4,17 +4,26 @@ from selenium.webdriver.common.keys import Keys
 from Avtopro.page_object.object_page import PageObjectAvtopro
 from properties.prop_csv import Csv
 
+
+# The path to the file you want to read
+file_read = r'C:\Users\anokhin\Desktop\KNS2018-11-06.csv'
+
+path_to_folder_uncorrect = r'C:\parser\uncorrect'
+path_to_folder_correct = r'C:\parser\correct'
+
+
 ob_csv = Csv()
+
 poa = PageObjectAvtopro()
 
 poa.open_site()
 poa.maximize_window()
 
-lst_from_ex = ob_csv.read_to_csv(r'C:\Users\anokhin\Desktop\KNS2018-11-06.csv')
+lst_from_ex = ob_csv.read_to_csv(file_read)
 
 for item in lst_from_ex:
     try:
-        time.sleep(1)
+        time.sleep(2)
 
         el_input = poa.get_search_query()
         el_input.send_keys(Keys.CONTROL + Keys.SHIFT + Keys.HOME)
@@ -38,20 +47,26 @@ for item in lst_from_ex:
         if el:
             el.click()
 
-            if poa.get_element_no_found():
-                ob_csv.create_empty_csv(item['index'] + "_" + brand_ex + "_" + num + "_undefined", r'C:\parser\uncorrect')
+            if not poa.page_404():
 
-            data = poa.record_to_file_csv(poa.get_table())
+                if poa.get_element_no_found():
+                    ob_csv.create_empty_csv(item['index'] + "_" + brand_ex + "_" + num + "_undefined", path_to_folder_uncorrect)
 
-            if data:
-                ob_csv.record_to_csv(item['index'] + "_" + brand_ex + "_" + num, poa.header, data, r'C:\parser\correct')
+                data = poa.record_to_file_csv(poa.get_table())
+
+                if data:
+                    ob_csv.record_to_csv(item['index'] + "_" + brand_ex + "_" + num, poa.header, data, path_to_folder_correct )
+                else:
+                    ob_csv.create_empty_csv(item['index'] + "_" + brand_ex + "_" + num + "_undefined", path_to_folder_uncorrect)
+
             else:
-                ob_csv.create_empty_csv(item['index'] + "_" + brand_ex + "_" + num + "_undefined", r'C:\parser\uncorrect')
+                ob_csv.create_empty_csv(item['index'] + "_" + brand_ex + "_" + num + "_undefined", path_to_folder_uncorrect)
+                poa.get_el_refer_to_main().click()
 
         else:
-            ob_csv.create_empty_csv(item['index'] + "_" + brand_ex + "_" + num + "_undefined", r'C:\parser\uncorrect')
+            ob_csv.create_empty_csv(item['index'] + "_" + brand_ex + "_" + num + "_undefined", path_to_folder_correct )
 
     except Exception:
-        ob_csv.create_empty_csv(item['index'] + "_" + brand_ex + "_" + num + "_error", r'C:\parser\uncorrect')
+        pass
 
 poa.close()
