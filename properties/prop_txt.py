@@ -13,8 +13,8 @@ class Txt:
 
     def writer_file_txt(self, path_file, dct):
         with open(path_file, 'a',newline='' ) as tf:
-            for it in dct:
-                tf.writelines(it.)
+            for itim in dct:
+               pass
 
 
 

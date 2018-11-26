@@ -18,3 +18,14 @@ class Driver(object):
     def maximize_window(self):
         self.driver.maximize_window()
 
+    def navigate_back(self):
+        self.driver.back()
+
+    def navigate_forward(self):
+        self.driver.forward()
+
+    def navigate_refresh(self):
+        self.driver.refresh()
+
+    def navigate_to(self):
+        self.driver.to()

@@ -32,6 +32,8 @@ class Csv:
             for row in data_list:
                 writer.writerow(row)
 
+
+
     def create_empty_csv(self, name_file=None, path_to_directory=None):
         with open(path_to_directory + '\\' + str(name_file) + '.csv', 'w', newline='') as csvfile:
             pass
