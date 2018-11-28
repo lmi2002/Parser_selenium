@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 
 from properties.prop_driver import Driver
-from base_function import helper
+from helper import base_func
 
 
 class PageObjectAvtopro(Driver):
@@ -31,7 +31,7 @@ class PageObjectAvtopro(Driver):
     def get_choice_num(self, brand_exist):
         try:
             brand_exist = brand_exist
-            brand_no_sym = helper.delete_all_spec_symbol(brand_exist)
+            brand_no_sym = base_func.delete_all_spec_symbol(brand_exist)
 
             list_brand = self.wait.until(
                 EC.presence_of_all_elements_located((
@@ -39,7 +39,7 @@ class PageObjectAvtopro(Driver):
 
             for brand in list_brand:
                 brand_avtopro = brand.text
-                brand_avtopro_no_sym = helper.delete_all_spec_symbol(brand_avtopro)
+                brand_avtopro_no_sym = base_func.delete_all_spec_symbol(brand_avtopro)
                 if re.search(brand_no_sym[0], brand_avtopro_no_sym[0], re.I):
                     return brand
             else:

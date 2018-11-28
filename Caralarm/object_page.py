@@ -7,6 +7,7 @@ import os
 import csv
 import logging
 
+from helper import logger
 from properties.prop_driver import Driver
 from properties.prop_csv import Csv
 
@@ -42,8 +43,24 @@ class PageObjectCaralarm(Driver):
     def get_description_full(self):
         return self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.prod_info_26'))).text
 
+    def get_category(self):
+        return self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'brdcrmb'))).text
+
+    def get_li_property(self):
+        try:
+            self.wait = WebDriverWait(self.driver, 1)
+            return self.wait.until(EC.presence_of_element_located((By.XPATH, '//a[contains(text(),"Характеристики")]')))
+        except Exception:
+            return False
+
+    def get_text_property(self):
+        table = self.wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '#tabs-2 tr')))
+        return [tr.text for tr in table]
+
+
 poc = PageObjectCaralarm()
 obj_csv = Csv()
+
 #poc.open_site(poc.url)
 
 #list_href_category = poc.get_list_href_category()
@@ -59,7 +76,6 @@ obj_csv = Csv()
         #for item in list_href_prod:
             #f.write(item + '\n')
 
-
 with open(r'C:\Users\anokhin\Desktop\caralarm\assortiment.txt', 'r', newline='') as f:
     while True:
         try:
@@ -74,17 +90,21 @@ with open(r'C:\Users\anokhin\Desktop\caralarm\assortiment.txt', 'r', newline='')
             lst.append({'key': 'name', 'value': name_sym})
             lst.append({'key': 'num_brand', 'value': poc.get_num_and_brand()})
             lst.append({'key': 'description_full', 'value': poc.get_description_full()})
-            print(lst)
-            with open(r'C:\Users\anokhin\Desktop\caralarm\product\'" + name + '.csv', 'w', newline='', errors='ignore') as csvfile:
-                #fieldnames = ['key', 'value']
-                #writer = csv.DictWriter(csvfile, delimiter=';', fieldnames=fieldnames)
-                writer = csv.
+            lst.append({'key': 'category', 'value': poc.get_category()})
+            with open('C:\\Users\\anokhin\\Desktop\\caralarm\\product\\' + name + '.csv', 'w', newline='', errors='ignore') as csvfile:
+                fieldnames = ['key', 'value']
+                writer = csv.DictWriter(csvfile, delimiter=';', fieldnames=fieldnames)
                 for row in lst:
-                    print(row)
                     writer.writerow(row)
 
+            if poc.get_li_property():
+                poc.get_li_property().click()
+                with open('C:\\Users\\anokhin\\Desktop\\caralarm\\property\\' + name + '.csv', 'w', newline='', errors='ignore') as csvfile:
+                    txt = poc.get_text_property()
+                    for row in txt:
+                        csvfile.writelines(row)
 
-
-
-
+        except Exception as er:
+            logging.basicConfig(filename=r'C:\Users\anokhin\Desktop\caralarm\error.txt', level=logging.INFO)
+            logging.info(er)
 
