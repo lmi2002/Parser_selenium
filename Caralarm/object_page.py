@@ -108,3 +108,5 @@ with open(r'C:\Users\anokhin\Desktop\caralarm\assortiment.txt', 'r', newline='')
             logging.basicConfig(filename=r'C:\Users\anokhin\Desktop\caralarm\error.txt', level=logging.INFO)
             logging.info(er)
 
+        poc.close()
+
