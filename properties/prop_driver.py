@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 import params
 
 
+
 class Driver(object):
 
     default_timeout = 30
@@ -29,3 +30,5 @@ class Driver(object):
 
     def navigate_to(self):
         self.driver.to()
+
+
