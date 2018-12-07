@@ -1,5 +1,6 @@
 from properties import prop_txt
-
+from helper import base_func
+from properties.prop_csv import Csv
 
 def compare_str(lst):
 
@@ -18,16 +19,14 @@ def compare_str(lst):
 
 
 
+
+
 if __name__ =='__main__':
 
-    t = prop_txt.Txt()
-
-    lst = t.reader_file_txt(r'C:\Users\anokhin\Desktop\side.txt')
-
-    #import ipdb; ipdb.set_trace()
-    uniq_list = compare_str(lst)
-    out_data = dict(zip(lst, uniq_list))
-    print(out_data)
+    csv_obj = Csv()
+    csv_obj.read_to_csv(r'C:\Users\anokhin\Desktop\tec_doc_2017_2_cross\tec_doc_2017_2_cross.csv')
 
 
-    t.writer_file_txt(r'C:\Users\anokhin\Desktop\side1.txt', out_data)
+
+
+
