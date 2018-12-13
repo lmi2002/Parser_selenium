@@ -2,10 +2,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.keys import Keys
 import time
 import os
 import csv
 import logging
+from functools import reduce
 
 from helper import logger
 from properties.prop_driver import Driver
@@ -13,7 +15,7 @@ from properties.prop_csv import Csv
 
 
 class PageObjectCaralarm(Driver):
-    url = 'http://www.caralarm.com.ua/fo.php'
+    url = 'http://www.caralarm.com.ua'
 
     def __init__(self):
         super().__init__()
@@ -29,6 +31,9 @@ class PageObjectCaralarm(Driver):
 
     def get_list_href_prod(self):
         return list(set(item.get_attribute('href') for item in self.wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.prod_info11 a')))))
+
+    def get_href_prod(self):
+        return self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.prod_info11 a')))
 
     def get_href_image(self):
         el = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '#big_image img')))
@@ -57,11 +62,14 @@ class PageObjectCaralarm(Driver):
         table = self.wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '#tabs-2 tr')))
         return [tr.text for tr in table]
 
+    def get_input_tag(self):
+        return self.wait.until(EC.presence_of_element_located((By.ID, 'searchpr')))
+
 
 poc = PageObjectCaralarm()
 obj_csv = Csv()
 
-#poc.open_site(poc.url)
+
 
 #list_href_category = poc.get_list_href_category()
 
@@ -81,12 +89,20 @@ with open(r'C:\Users\anokhin\Desktop\caralarm\assortiment.txt', 'r', newline='')
         try:
             data = f.readline()
 
-            poc.open_site(data)
+            #poc.open_site(data)
+
+            # Use for input
+            poc.open_site(poc.url)
+            el_input = poc.get_input_tag()
+            el_input.send_keys(data)
+            poc.get_href_prod().click()
 
             lst = []
             lst.append({'key': 'href', 'value': poc.get_href_image()})
             name_sym = poc.get_name_item()
-            name = name_sym.replace('/', '$')
+            tup = tuple(map(lambda n:  n if n.isalpha() or n.isnumeric() else n.replace(n, '_'), name_sym))
+            name = ''.join(tup)
+
             lst.append({'key': 'name', 'value': name_sym})
             lst.append({'key': 'num_brand', 'value': poc.get_num_and_brand()})
             lst.append({'key': 'description_full', 'value': poc.get_description_full()})
@@ -106,7 +122,7 @@ with open(r'C:\Users\anokhin\Desktop\caralarm\assortiment.txt', 'r', newline='')
 
         except Exception as er:
             logging.basicConfig(filename=r'C:\Users\anokhin\Desktop\caralarm\error.txt', level=logging.INFO)
-            logging.info(er)
+            logging.info('{}{}'. format(str(data), er))
 
-        poc.close()
+poc.close()
 

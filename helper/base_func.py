@@ -38,11 +38,14 @@ def cut_big_file(file, rows, skip, names):
         df = pd.read_csv(file, sep=';', names=names, skiprows=skip)
         df.to_csv(path_or_buf=file[:-4]+str(skip)+file[-4:])
 
-# file='tec_doc_2017_2_cross.csv'
-# rows=1000000
-# skip=1
-# df_names=pd.read_csv(file, sep=';', nrows=0)
-# res=1
-# while res:
-#     cut(file, rows, skip, names=df_names.columns)
-#     skip+=rows
+
+if __name__ == '__main__':
+
+    file = r'C:\Users\anokhin\Desktop\tec_doc_2017_2_cross\tec_doc_2017_2_cross.csv'
+    rows = 5000000
+    skip = 1
+    df_names = pd.read_csv(file, sep=';', nrows=0)
+    res = 1
+    while res:
+        cut_big_file(file, rows, skip, names=df_names.columns)
+        skip += rows
