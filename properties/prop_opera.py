@@ -1,16 +1,22 @@
-import time
-
-from selenium import webdriver
 from selenium.webdriver.chrome import service
+from selenium import webdriver
 
 
-webdriver_service = service.Service(r'C:\Users\anokhin\PycharmProjects\Parser_site\drivers\operadriver.exe')
-webdriver_service.start()
+opera_exe_path = r'C:\Users\anokhin\AppData\Local\Programs\Opera\launcher.exe'
 
-driver = webdriver.Remote(webdriver_service.service_url, webdriver.DesiredCapabilities.OPERA)
+opera_driver_exe_path = r'C:\Users\anokhin\PycharmProjects\Parser_site\drivers\operadriver.exe'
 
-driver.get('https://www.google.com/')
+port = 6000
 
 
-time.sleep(5) #see the result
-driver.quit()
+capabilities = {
+    'operaOptions': {
+        'binary': opera_exe_path
+    }
+}
+
+webdriver_service = service.Service(opera_driver_exe_path)
+
+
+
+remote = webdriver.Remote(webdriver_service, capabilities)

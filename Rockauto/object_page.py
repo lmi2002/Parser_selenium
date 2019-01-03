@@ -40,7 +40,7 @@ for el in href:
     response = requests.get('https://www.rockauto.com/en/catalog/' + href[0])
     soup = BeautifulSoup(response.content, 'html.parser')
     a = soup.find_all('a')
-    lst = [el.get('href') for el in a if re.searh('en/catalog/'+href, el.get('href'), re.I)]
+    lst = [elm.get('href') for elm in a if re.search('en/catalog/'+href, el.get('href'), re.I)]
 
 print(lst)
 

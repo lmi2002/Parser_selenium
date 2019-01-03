@@ -15,11 +15,8 @@ class Csv:
         with open(path_to_directory, 'r', newline='', errors='ignore', encoding='utf8') as csvfile:
             reader = csv.DictReader(csvfile, delimiter=';')
             for row in reader:
-                for i in (1, 5):
-                    lst_tmp.append(row)
-                    i=+i
-                    print(row)
-                return lst_tmp
+                lst_tmp.append(row)
+            return lst_tmp
 
     def record_to_csv(self, name_file=None, s_fieldnames=None, data_list=None, path_to_directory=None):
 
