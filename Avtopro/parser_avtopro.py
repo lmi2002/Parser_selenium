@@ -6,10 +6,10 @@ from properties.prop_csv import Csv
 
 
 # The path to the file you want to read
-file_read = r'C:\Users\anokhin\Desktop\kns_23.11.2018.csv'
+file_read = r'C:\Users\anokhin\Desktop\glass.csv'
 
-path_to_folder_uncorrect = r'C:\parser\uncorrect'
-path_to_folder_correct = r'C:\parser\correct'
+path_to_folder_uncorrect = r'C:\Users\anokhin\Desktop\parser\uncorrect'
+path_to_folder_correct = r'C:\Users\anokhin\Desktop\parser\correct'
 
 
 ob_csv = Csv()
@@ -64,9 +64,11 @@ for item in lst_from_ex:
                 poa.get_el_refer_to_main().click()
 
         else:
-            ob_csv.create_empty_csv(item['index'] + "_" + brand_ex + "_" + num + "_undefined", path_to_folder_correct )
+            ob_csv.create_empty_csv(item['index'] + "_" + brand_ex + "_" + num + "_undefined", path_to_folder_correct)
 
     except Exception:
         pass
+
+
 
 poa.close()

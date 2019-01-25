@@ -1,3 +1,4 @@
+pandas
 
 selenium==3.14.0
 selene==1.0.0a13

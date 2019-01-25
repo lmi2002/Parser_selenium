@@ -12,7 +12,7 @@ class Csv:
     def read_to_csv(self, path_to_directory=None):
 
         lst_tmp = []
-        with open(path_to_directory, 'r', newline='') as csvfile:
+        with open(path_to_directory, 'r', newline='', errors='ignore', encoding='utf8') as csvfile:
             reader = csv.DictReader(csvfile, delimiter=';')
             for row in reader:
                 lst_tmp.append(row)

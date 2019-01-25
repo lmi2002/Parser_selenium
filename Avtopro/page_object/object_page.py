@@ -49,7 +49,8 @@ class PageObjectAvtopro(Driver):
 
     def get_table(self):
         return self.wait.until(
-            EC.presence_of_all_elements_located((By.XPATH, "//table[@id='js-partslist-primary']/tbody/tr")))
+            EC.presence_of_all_elements_located((By.XPATH, "//tr[@class ='table-primary-header']/ancestor::table/tbody/tr")))
+
 
     def record_to_file_csv(self, table):
         lst = []
