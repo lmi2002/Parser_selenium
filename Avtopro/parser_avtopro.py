@@ -6,7 +6,7 @@ from properties.prop_csv import Csv
 
 
 # The path to the file you want to read
-file_read = r'C:\Users\anokhin\Desktop\2018-12-26_1.csv'
+file_read = r'C:\Users\anokhin\Desktop\glass.csv'
 
 path_to_folder_uncorrect = r'C:\Users\anokhin\Desktop\parser\uncorrect'
 path_to_folder_correct = r'C:\Users\anokhin\Desktop\parser\correct'
