@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 import xlrd
 import time
 import random
-
+import helper
 
 from Parts_righttoyota_com.object_page import PageObjectPartsRightToyota
 
@@ -23,8 +23,15 @@ for num in gen:
     pop = PageObjectPartsRightToyota()
     pop.open_site(pop.url)
     pop.maximize_window()
-    pop.get_input().send_keys(num)
-    pop.get_input().send_keys(Keys.ENTER)
+
+    input = pop.get_input()
+
+    if(input):
+        input().send_keys(num)
+        input().send_keys(Keys.ENTER)
+    else:
+        random.choice(range(2500, 3600))
+
 
     if (pop.get_no_results_found()):
 
@@ -33,6 +40,11 @@ for num in gen:
             worksheet.write(0, 0, 'noresult')
 
     else:
+        product_title_module = pop.get_product_title_module()
+
+        if(product_title_module):
+            name = product_title_module.text
+
         secondary_images = pop.get_secondary_images()
 
         if (secondary_images):
@@ -53,7 +65,7 @@ for num in gen:
 
         if (product_details):
 
-            with xlsxwriter.Workbook(path_to_save_xlsx + num + '.xlsx') as workbook:
+            with xlsxwriter.Workbook(path_to_save_xlsx + num + '_' + name + '.xlsx') as workbook:
                 worksheet = workbook.add_worksheet()
 
                 for inx, detail in enumerate(product_details.find_elements_by_css_selector('li'), start=0):

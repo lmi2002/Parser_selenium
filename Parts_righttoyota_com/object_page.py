@@ -15,7 +15,10 @@ class PageObjectPartsRightToyota(Driver):
         return self.driver.get(url)
 
     def get_input(self):
-        return self.wait.until(EC.presence_of_element_located((By.ID, 'main_search_2')))
+        try:
+            return self.wait.until(EC.presence_of_element_located((By.ID, 'main_search_2')))
+        except:
+            return False
 
     def get_submit(self):
         return self.wait.until(EC.presence_of_element_located((By.XPATH, "//form[@id='search-box']/button/i)[2]")))
@@ -40,9 +43,14 @@ class PageObjectPartsRightToyota(Driver):
 
     def get_no_results_found(self):
         try:
-            Driver.default_timeout = 5
+            self.default_timeout = 5
             return self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.no-results-found')))
         except:
             return False
 
+    def get_product_title_module(self):
+        try:
+            return self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.product-title-module > h1')))
+        except:
+            return False
 
