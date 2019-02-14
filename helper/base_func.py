@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 def delete_all_spec_symbol(*args):
     data = []
     symbols = '/.,"}][# !$%^&\*;:{=+-_~}('
