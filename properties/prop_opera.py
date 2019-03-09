@@ -15,8 +15,7 @@ capabilities = {
     }
 }
 
+
 webdriver_service = service.Service(opera_driver_exe_path)
-
-
 
 remote = webdriver.Remote(webdriver_service, capabilities)
