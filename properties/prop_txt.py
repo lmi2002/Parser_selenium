@@ -14,7 +14,7 @@ class Txt:
     def writer_file_txt(path_file, dct):
         with open(path_file, 'a', newline='\n', ) as tf:
             for item in dct:
-                tf.write(item + '\n')
+                tf.writelines(item + '\n')
 
 
 
