@@ -9,7 +9,6 @@ from properties.prop_driver import Driver
 
 class PageObjectRockauto(Driver):
 
-
     def __init__(self):
         super().__init__()
 

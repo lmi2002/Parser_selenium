@@ -10,11 +10,11 @@ class Txt:
 
         return self.lst
 
-
-    def writer_file_txt(self, path_file, dct):
-        with open(path_file, 'a',newline='' ) as tf:
-            for itim in dct:
-               pass
+    @staticmethod
+    def writer_file_txt(path_file, dct):
+        with open(path_file, 'a', newline='\n', ) as tf:
+            for item in dct:
+                tf.writelines(item + '\n')
 
 
 
